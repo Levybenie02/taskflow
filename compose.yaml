@@ -12,6 +12,9 @@ services:
     environment:
       APP_ENV: dev
       APP_DEBUG: "1"
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - taskflow-network
 
@@ -28,14 +31,31 @@ services:
     networks:
       - taskflow-network
 
-###> doctrine/doctrine-bundle ###
-###< doctrine/doctrine-bundle ###
+  db:
+    image: mysql:8.4
+    container_name: taskflow-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?Configure MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: taskflow
+      MYSQL_USER: taskflow
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:?Configure MYSQL_PASSWORD}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'MYSQL_PWD="$${MYSQL_PASSWORD}" mysql -h 127.0.0.1 -u "$${MYSQL_USER}" -e "SELECT 1" "$${MYSQL_DATABASE}" >/dev/null 2>&1'
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 40s
+    networks:
+      - taskflow-network
+
+volumes:
+  mysql_data:
 
 networks:
   taskflow-network:
     driver: bridge
-
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
