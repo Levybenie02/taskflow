@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TaskFlow{% endblock %}
+
+{% block body %}
+    <div
+        style="
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 100px auto;
+    text-align: center;
+"
+    >
+        <h1>Bienvenue sur {{ app_name }}</h1>
+
+        <p>{{ message }}</p>
+
+        <h3>Infrastructure opérationnelle</h3>
+
+        <ul
+            style="
+        list-style: none;
+        padding: 0;
+        line-height: 2;
+    "
+        >
+            <li>✅ Docker Desktop</li>
+            <li>✅ PHP 8.4</li>
+            <li>✅ Symfony 7.4</li>
+            <li>✅ Nginx</li>
+            <li>✅ Twig</li>
+        </ul>
+
+        <p>Notre formation DevOps peut commencer.</p>
+    </div>
+{% endblock %}

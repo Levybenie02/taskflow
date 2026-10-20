@@ -1,0 +1,41 @@
+name: taskflow
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: taskflow-php
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: "1"
+    networks:
+      - taskflow-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: taskflow-nginx
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+    networks:
+      - taskflow-network
+
+###> doctrine/doctrine-bundle ###
+###< doctrine/doctrine-bundle ###
+
+networks:
+  taskflow-network:
+    driver: bridge
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###
