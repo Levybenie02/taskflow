@@ -1,3 +1,30 @@
-body {
-    background-color: skyblue;
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 :
+ * Déclarer explicitement les dossiers contenant
+ * les classes CSS, y compris les templates Twig.
+ */
+@source "../../templates";
+@source "../";
+
+/*
+ * Design tokens TaskFlow.
+ * Les variables --color-* génèrent des utilitaires
+ * comme bg-brand-600 ou text-brand-700.
+ */
+@theme {
+    --color-brand-50: #ecfdf5;
+    --color-brand-100: #d1fae5;
+    --color-brand-500: #10b981;
+    --color-brand-600: #059669;
+    --color-brand-700: #047857;
+
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }
+
+/*
+ * Ne pas ajouter de CSS métier global ici.
+ * Préférer les classes utilitaires Tailwind
+ * et des composants réutilisables.
+ */
